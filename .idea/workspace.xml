@@ -1,59 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="47a15d9d-c79e-46a9-bbbf-df38ac55657d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Java_EE_6_Java_EE_6.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Trello_quora.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/javax.annotation.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/javax.ejb.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/javax.jms.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/javax.persistence.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/javax.resource.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/javax.servlet.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/javax.servlet.jsp.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/javax.servlet.jsp.jstl.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/javax.transaction.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-api/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-api/src/main/java/com/upgrad/quora/api/QuoraApiApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-api/src/main/java/com/upgrad/quora/api/config/SwaggerConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-api/src/main/resources/application.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-api/src/main/resources/endpoints/admin.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-api/src/main/resources/endpoints/answer.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-api/src/main/resources/endpoints/common.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-api/src/main/resources/endpoints/question.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-api/src/main/resources/endpoints/user.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-api/src/test/java/com/upgrad/quora/api/controller/AdminControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-api/src/test/java/com/upgrad/quora/api/controller/AnswerControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-api/src/test/java/com/upgrad/quora/api/controller/CommonControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-api/src/test/java/com/upgrad/quora/api/controller/QuestionControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-api/src/test/java/com/upgrad/quora/api/controller/UserControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-db/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-db/src/main/resources/config/localhost.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-db/src/main/resources/sql/quora.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-db/src/main/resources/sql/quora_test.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-service/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/ServiceConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/business/JwtTokenProvider.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/business/PasswordCryptographyProvider.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/common/ErrorCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/common/GenericErrorCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/common/UnexpectedException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/exception/AnswerNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/exception/AuthenticationFailedException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/exception/AuthorizationFailedException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/exception/InvalidQuestionException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/exception/SignOutRestrictedException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/exception/SignUpRestrictedException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/exception/UserNotFoundException.java" afterDir="false" />
-    </list>
+    <list default="true" id="47a15d9d-c79e-46a9-bbbf-df38ac55657d" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/quora-api/target/" />
@@ -468,8 +416,8 @@
       <file leaf-file-name="application.yaml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/quora-api/src/main/resources/application.yaml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="140">
-              <caret line="15" selection-start-line="15" selection-end-line="15" />
+            <state relative-caret-position="225">
+              <caret line="20" column="41" selection-start-line="20" selection-start-column="41" selection-end-line="20" selection-end-column="41" />
             </state>
           </provider>
         </entry>
@@ -603,37 +551,49 @@
             <path>
               <item name="quora" type="b2602c69:ProjectViewProjectNode" />
               <item name="Trello_quora" type="462c0819:PsiDirectoryNode" />
-              <item name="quora-service" type="462c0819:PsiDirectoryNode" />
+              <item name="quora-api" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="quora" type="b2602c69:ProjectViewProjectNode" />
               <item name="Trello_quora" type="462c0819:PsiDirectoryNode" />
-              <item name="quora-service" type="462c0819:PsiDirectoryNode" />
+              <item name="quora-api" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="quora" type="b2602c69:ProjectViewProjectNode" />
               <item name="Trello_quora" type="462c0819:PsiDirectoryNode" />
-              <item name="quora-service" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="quora" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Trello_quora" type="462c0819:PsiDirectoryNode" />
-              <item name="quora-service" type="462c0819:PsiDirectoryNode" />
+              <item name="quora-api" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="quora" type="b2602c69:ProjectViewProjectNode" />
               <item name="Trello_quora" type="462c0819:PsiDirectoryNode" />
-              <item name="quora-service" type="462c0819:PsiDirectoryNode" />
+              <item name="quora-api" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="service" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="quora" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Trello_quora" type="462c0819:PsiDirectoryNode" />
+              <item name="quora-api" type="462c0819:PsiDirectoryNode" />
+              <item name="target" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="quora" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Trello_quora" type="462c0819:PsiDirectoryNode" />
+              <item name="quora-api" type="462c0819:PsiDirectoryNode" />
+              <item name="target" type="462c0819:PsiDirectoryNode" />
+              <item name="generated-sources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="quora" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Trello_quora" type="462c0819:PsiDirectoryNode" />
+              <item name="quora-api" type="462c0819:PsiDirectoryNode" />
+              <item name="target" type="462c0819:PsiDirectoryNode" />
+              <item name="generated-sources" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -825,7 +785,7 @@
       <workItem from="1538634479950" duration="3217000" />
       <workItem from="1538642827225" duration="1059000" />
       <workItem from="1538723860955" duration="5425000" />
-      <workItem from="1539593200951" duration="1676000" />
+      <workItem from="1539593200951" duration="2946000" />
     </task>
     <servers />
   </component>
@@ -862,7 +822,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="271928000" />
+    <option name="totallyTimeSpent" value="273198000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -887,7 +847,7 @@
       <window_info anchor="bottom" id="Run" order="6" weight="0.22094926" />
       <window_info anchor="bottom" id="Spring" order="3" />
       <window_info active="true" anchor="bottom" id="Terminal" order="14" visible="true" weight="0.35313532" />
-      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.21633889" />
+      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.29727685" />
       <window_info anchor="right" id="Bean Validation" order="0" />
       <window_info id="Web" order="0" side_tool="true" />
       <window_info anchor="right" id="Theme Preview" order="6" />
@@ -1215,8 +1175,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/quora-api/src/main/resources/application.yaml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="15" selection-start-line="15" selection-end-line="15" />
+        <state relative-caret-position="225">
+          <caret line="20" column="41" selection-start-line="20" selection-start-column="41" selection-end-line="20" selection-end-column="41" />
         </state>
       </provider>
     </entry>
@@ -1284,7 +1244,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited />
+          <last-edited>Java EE 6-Java EE 6</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
