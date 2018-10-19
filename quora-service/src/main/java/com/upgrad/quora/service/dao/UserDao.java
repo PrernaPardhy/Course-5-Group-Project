@@ -17,20 +17,20 @@ public class UserDao {
 
     public UserEntity createUser(UserEntity userEntity) throws SignUpRestrictedException {
         String userName = userEntity.getUsername();
-        String userEmail=userEntity.getEmail();
+        String userEmail = userEntity.getEmail();
 
 
-        try{
-            if(entityManager.createNamedQuery("userByName", UserEntity.class).setParameter("username", userName)
-                    .setParameter("email",userEmail).getSingleResult().getUsername().equals(userEntity.getUsername()))
+        try {
+            if (entityManager.createNamedQuery("userByName", UserEntity.class).setParameter("username", userName)
+                    .setParameter("email", userEmail).getSingleResult().getUsername().equals(userEntity.getUsername()))
                 throw new SignUpRestrictedException("SGR-001", "Try any other username. This username has already been taken");
-            else if(entityManager.createNamedQuery("userByName", UserEntity.class).setParameter("username", userName)
-                    .setParameter("email",userEmail).getSingleResult().getEmail().equals(userEntity.getEmail()))
+            else if (entityManager.createNamedQuery("userByName", UserEntity.class).setParameter("username", userName)
+                    .setParameter("email", userEmail).getSingleResult().getEmail().equals(userEntity.getEmail()))
                 throw new SignUpRestrictedException("SGR-002", "This user has already been registered, try with any other emailId");
 
             return null;
 
-        }catch(NoResultException nre){
+        } catch (NoResultException nre) {
             entityManager.persist(userEntity);
             return userEntity;
         }
@@ -46,14 +46,44 @@ public class UserDao {
         }
     }
 
-    public UserAuthEntity createAuthToken(UserAuthEntity userAuthEntity){
+    public UserAuthEntity createAuthToken(UserAuthEntity userAuthEntity) {
+
         entityManager.persist(userAuthEntity);
         return userAuthEntity;
+
     }
 
+    public UserAuthEntity getUserAuthToken(final String accessToken) {
 
+        try {
+            return entityManager.createNamedQuery("userAuthTokenByAccessToken", UserAuthEntity.class)
+                    .setParameter("accessToken", accessToken).getSingleResult();
+            // entityManager.merge(userAuthEntity);
 
+        } catch (NoResultException nre) {
+            return null;
+        }
+    }
+
+    public void updateAuthToken(UserAuthEntity userAuthEntity){
+
+        entityManager.persist(userAuthEntity);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
