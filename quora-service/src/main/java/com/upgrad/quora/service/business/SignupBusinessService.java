@@ -19,12 +19,9 @@ public class SignupBusinessService {
 
 
     @Transactional(propagation=Propagation.REQUIRED)
-    public UserEntity signUp(UserEntity userEntity) throws SignUpRestrictedException {
+    public UserEntity signUp(final UserEntity userEntity) throws SignUpRestrictedException {
 
-       /* if (userDao.createUser(userEntity) == null) {
-            throw new SignUpRestrictedException("SGR-001", "Try any other Username, this Username has already been taken");
 
-        }*/
        String[] encryptedText=cryptographyProvider.encrypt(userEntity.getPassword());
        userEntity.setSalt(encryptedText[0]);
        userEntity.setPassword(encryptedText[1]);

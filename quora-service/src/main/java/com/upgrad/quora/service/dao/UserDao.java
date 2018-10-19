@@ -15,7 +15,7 @@ public class UserDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public UserEntity createUser(UserEntity userEntity) throws SignUpRestrictedException {
+    public UserEntity createUser( final UserEntity userEntity) throws SignUpRestrictedException {
         String userName = userEntity.getUsername();
         String userEmail = userEntity.getEmail();
 
@@ -65,11 +65,23 @@ public class UserDao {
         }
     }
 
-    public void updateAuthToken(UserAuthEntity userAuthEntity){
+    public void updateAuthToken(final UserAuthEntity userAuthEntity) {
 
         entityManager.persist(userAuthEntity);
     }
+
+    public UserEntity getUserByUuid(final String userUuid) {
+        try {
+            return entityManager.createNamedQuery("userByUuid", UserEntity.class).setParameter("uuid", userUuid)
+                    .getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
+    }
 }
+
+
+
 
 
 

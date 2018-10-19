@@ -33,6 +33,7 @@ public class UserController {
     @Autowired
     private AuthenticationService authenticationService;
 
+
     @RequestMapping(method = RequestMethod.POST, path = "/user/signup", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<SignupUserResponse> signUp(final SignupUserRequest signupUserRequest) throws SignUpRestrictedException {
 
@@ -57,7 +58,6 @@ public class UserController {
 
         return new ResponseEntity<SignupUserResponse>(userResponse, HttpStatus.CREATED);
     }
-
 
     @RequestMapping(method = RequestMethod.POST, path = "/user/signin", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<SigninResponse> signIn(@RequestHeader("authorization") final String authorization) throws AuthenticationFailedException {
@@ -84,7 +84,6 @@ public class UserController {
 
         SignoutResponse signoutResponse=new SignoutResponse().id(updateuserAuthToken.getUuid()).message("SIGNED OUT SUCCESSFULLY");
         return new ResponseEntity<SignoutResponse>(signoutResponse,HttpStatus.OK);
-
 
     }
 }

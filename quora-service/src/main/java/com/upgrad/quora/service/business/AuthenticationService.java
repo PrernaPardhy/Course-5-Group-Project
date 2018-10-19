@@ -55,7 +55,7 @@ public class AuthenticationService {
     }
 
     @Transactional(propagation=Propagation.REQUIRED)
-    public UserAuthEntity getUserByToken(String authorization) throws SignOutRestrictedException {
+    public UserAuthEntity getUserByToken(final String authorization) throws SignOutRestrictedException {
 
        UserAuthEntity userTokenExists= userDao.getUserAuthToken(authorization);
        if(userTokenExists!=null){
