@@ -1,5 +1,6 @@
 package com.upgrad.quora.service.dao;
 
+import com.upgrad.quora.service.entity.QuestionEntity;
 import com.upgrad.quora.service.entity.UserAuthEntity;
 import com.upgrad.quora.service.entity.UserEntity;
 import com.upgrad.quora.service.exception.SignUpRestrictedException;
@@ -67,7 +68,7 @@ public class UserDao {
 
     public void updateAuthToken(final UserAuthEntity userAuthEntity) {
 
-        entityManager.persist(userAuthEntity);
+        entityManager.merge(userAuthEntity);
     }
 
     public UserEntity getUserByUuid(final String userUuid) {
@@ -80,12 +81,21 @@ public class UserDao {
     }
 
     public String deleteUser(UserEntity userEntity) {
-       // entityManager.createNamedQuery("deleteUser", UserEntity.class).setParameter("uuid", userEntity.getUuid());
-        String userUuid=userEntity.getUuid();
-        entityManager.createQuery("delete from UserEntity u where u.uuid ="+"'"+userUuid+"'").executeUpdate();
+        // entityManager.createNamedQuery("deleteUser", UserEntity.class).setParameter("uuid", userEntity.getUuid());
+        String userUuid = userEntity.getUuid();
+        entityManager.createQuery("delete from UserEntity u where u.uuid =" + "'" + userUuid + "'").executeUpdate();
         return userEntity.getUuid();
     }
+
+    public QuestionEntity saveQuestion(final QuestionEntity questionContent) {
+        entityManager.persist(questionContent);
+        return questionContent;
+    }
 }
+
+
+
+
 
 
 

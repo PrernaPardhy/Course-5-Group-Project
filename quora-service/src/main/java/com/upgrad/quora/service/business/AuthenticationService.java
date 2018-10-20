@@ -54,6 +54,8 @@ public class AuthenticationService {
 
     }
 
+
+
     @Transactional(propagation=Propagation.REQUIRED)
     public UserAuthEntity getUserByToken(final String authorization) throws SignOutRestrictedException {
 

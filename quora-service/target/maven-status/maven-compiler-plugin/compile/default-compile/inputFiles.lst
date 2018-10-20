@@ -11,6 +11,7 @@ D:\JavaExamples\Trello_quora\quora-service\src\main\java\com\upgrad\quora\servic
 D:\JavaExamples\Trello_quora\quora-service\src\main\java\com\upgrad\quora\service\exception\AuthorizationFailedException.java
 D:\JavaExamples\Trello_quora\quora-service\src\main\java\com\upgrad\quora\service\entity\UserEntity.java
 D:\JavaExamples\Trello_quora\quora-service\src\main\java\com\upgrad\quora\service\entity\UserAuthEntity.java
+D:\JavaExamples\Trello_quora\quora-service\src\main\java\com\upgrad\quora\service\business\QuestionService.java
 D:\JavaExamples\Trello_quora\quora-service\src\main\java\com\upgrad\quora\service\business\AdminBusinessService.java
 D:\JavaExamples\Trello_quora\quora-service\src\main\java\com\upgrad\quora\service\entity\AnswerEntity.java
 D:\JavaExamples\Trello_quora\quora-service\src\main\java\com\upgrad\quora\service\exception\SignUpRestrictedException.java
