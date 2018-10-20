@@ -15,7 +15,7 @@ public class UserDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public UserEntity createUser( final UserEntity userEntity) throws SignUpRestrictedException {
+    public UserEntity createUser(final UserEntity userEntity) throws SignUpRestrictedException {
         String userName = userEntity.getUsername();
         String userEmail = userEntity.getEmail();
 
@@ -78,7 +78,20 @@ public class UserDao {
             return null;
         }
     }
+
+    public String deleteUser(UserEntity userEntity) {
+       // entityManager.createNamedQuery("deleteUser", UserEntity.class).setParameter("uuid", userEntity.getUuid());
+        String userUuid=userEntity.getUuid();
+        entityManager.createQuery("delete from UserEntity u where u.uuid ="+"'"+userUuid+"'").executeUpdate();
+        return userEntity.getUuid();
+    }
 }
+
+
+
+
+
+
 
 
 
