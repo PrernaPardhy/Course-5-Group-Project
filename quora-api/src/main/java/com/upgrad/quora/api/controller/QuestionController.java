@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/")
@@ -28,7 +29,7 @@ public class QuestionController {
 
         QuestionEntity questionEntity=new QuestionEntity();
         UserAuthEntity userAuth= questionService.authenticate(authorization);
-        questionEntity.setUuid(userAuth.getUuid());
+        questionEntity.setUuid(UUID.randomUUID().toString());
         questionEntity.setContent(questionRequest.getContent());
         ZonedDateTime now=ZonedDateTime.now();
         questionEntity.setDate(now);
@@ -47,17 +48,18 @@ public class QuestionController {
 
      List<QuestionEntity> listQuestions=questionService.getQuestions();
 
-     QuestionDetailsResponse questionDetailsResponse=new QuestionDetailsResponse().id(userAuth.getUuid());
         String questionString="";
+        String questionId="";
         int i=listQuestions.size();
      for(QuestionEntity Qe:listQuestions){
 
-         questionString=i+") "+Qe.getContent()+" "+questionString;
+        questionId=i+")  "+Qe.getUuid()+"  "+questionId;
+         questionString=i+")  "+Qe.getContent()+" "+questionString;
          i--;
 
 
      }
-        questionDetailsResponse.content(questionString);
+       QuestionDetailsResponse questionDetailsResponse=new  QuestionDetailsResponse().id(questionId).content(questionString);
 
 
         return new ResponseEntity<QuestionDetailsResponse>(questionDetailsResponse,HttpStatus.OK);
@@ -66,7 +68,7 @@ public class QuestionController {
 
     @RequestMapping(method=RequestMethod.POST,path="/question/edit/{questionId}",consumes=MediaType.APPLICATION_JSON_UTF8_VALUE,produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<QuestionEditResponse> editQuestionContent (final QuestionEditRequest questionEditRequest,
-                                                                     @PathVariable("questionId") final Integer questionId,
+                                                                     @PathVariable("questionId") final String questionId,
                                                                      @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, InvalidQuestionException {
         UserAuthEntity userAuth= questionService.authenticate(authorization);
         QuestionEntity questionEntity= questionService.getQuestionAuthenticate(userAuth,questionId);
@@ -80,7 +82,7 @@ public class QuestionController {
     }
 
     @RequestMapping(method=RequestMethod.POST,path="/question/delete/{questionId}",consumes=MediaType.APPLICATION_JSON_UTF8_VALUE,produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<QuestionDeleteResponse> deleteQuestion(@PathVariable("questionId") final int questionId,
+    public ResponseEntity<QuestionDeleteResponse> deleteQuestion(@PathVariable("questionId") final String questionId,
                                                                  @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, InvalidQuestionException {
         UserAuthEntity userAuth = questionService.authenticate(authorization);
         QuestionEntity questionEntity = questionService.getQuestionAuthenticate(userAuth, questionId);
@@ -97,22 +99,18 @@ public class QuestionController {
 
         List<QuestionEntity> listQuestions=questionService.getUserQuestion(userUuid);
 
+
         QuestionDetailsResponse questionDetailsResponse=new QuestionDetailsResponse().id(userAuth.getUuid());
         String questionString="";
         int i=listQuestions.size();
         for(QuestionEntity Qe:listQuestions){
-
             questionString=i+") "+Qe.getContent()+" "+questionString;
             i--;
-
 
         }
         questionDetailsResponse.content(questionString);
 
-
         return new ResponseEntity<QuestionDetailsResponse>(questionDetailsResponse,HttpStatus.OK);
-
-
 
     }
 

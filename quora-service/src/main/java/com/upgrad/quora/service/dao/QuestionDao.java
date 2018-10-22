@@ -2,6 +2,7 @@ package com.upgrad.quora.service.dao;
 
 
 import com.upgrad.quora.service.entity.QuestionEntity;
+import com.upgrad.quora.service.entity.UserEntity;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -15,14 +16,20 @@ public class QuestionDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public List<QuestionEntity> getUserQuestion(final String userId){
-       try{
-            return  entityManager.createNamedQuery("questionContents", QuestionEntity.class)
-                   .setParameter("uuid", userId).getResultList();
-       }catch(NoResultException nre){
-           return null;
-       }
+    public List<QuestionEntity> getUserQuestion(final UserEntity userEntity) {
+        try {
+
+           // return entityManager.createNamedQuery("questionById",QuestionEntity.class).setParameter("userid",userEntity.getId())
+                  //  .getResultList();
+            String Query=" select distinct q from QuestionEntity q inner join q.user u where u.id="+userEntity.getId();
+          return entityManager.createQuery(Query).getResultList();
+
+        } catch (NoResultException nre) {
+            return null;
+        }
     }
+
+
 
     public QuestionEntity saveQuestion(final QuestionEntity questionContent) {
         entityManager.persist(questionContent);
@@ -36,9 +43,9 @@ public class QuestionDao {
         return listQuestions;
     }
 
-    public QuestionEntity questionById(final int questionId) {
+    public QuestionEntity questionById(final String questionId) {
         try {
-            return entityManager.createNamedQuery("questionById", QuestionEntity.class).setParameter("id", questionId)
+            return entityManager.createNamedQuery("questionByUuid", QuestionEntity.class).setParameter("uuid", questionId)
                     .getSingleResult();
         }catch (NoResultException nre){
             return null;
@@ -51,7 +58,7 @@ public class QuestionDao {
     }
 
     public void deleteQuestion(final QuestionEntity questionEntity) {
-        entityManager.createQuery("delete from QuestionEntity q where q.id =" + "'" + questionEntity.getId() + "'").executeUpdate();
-        //  entityManager.createNamedQuery("deleteQuestion", QuestionEntity.class).setParameter("id", questionEntity.getId());
+        entityManager.createQuery("delete from QuestionEntity q where q.uuid =" + "'" + questionEntity.getUuid() + "'").executeUpdate();
+
     }
 }

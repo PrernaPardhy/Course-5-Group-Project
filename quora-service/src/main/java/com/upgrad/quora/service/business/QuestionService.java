@@ -4,6 +4,7 @@ import com.upgrad.quora.service.dao.QuestionDao;
 import com.upgrad.quora.service.dao.UserDao;
 import com.upgrad.quora.service.entity.QuestionEntity;
 import com.upgrad.quora.service.entity.UserAuthEntity;
+import com.upgrad.quora.service.entity.UserEntity;
 import com.upgrad.quora.service.exception.AuthorizationFailedException;
 import com.upgrad.quora.service.exception.InvalidQuestionException;
 import com.upgrad.quora.service.exception.UserNotFoundException;
@@ -53,15 +54,12 @@ public class QuestionService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public QuestionEntity getQuestionAuthenticate(final UserAuthEntity userAuthEntity, final int questionId) throws AuthorizationFailedException, InvalidQuestionException {
+    public QuestionEntity getQuestionAuthenticate(final UserAuthEntity userAuthEntity, final String questionId) throws AuthorizationFailedException, InvalidQuestionException {
         QuestionEntity questionEntity = questionDao.questionById(questionId);
         if(questionEntity==null){
             throw new InvalidQuestionException("QUES-001","Entered Question uuid does not exist");
         }else if (questionEntity.getUser().getUuid() != userAuthEntity.getUser().getUuid() && questionEntity.getUser().getRole() == "nonadmin") {
             throw new AuthorizationFailedException("ATHR-003", "Only the question owner can edit the question");
-        } else if (questionEntity.getUuid() == null) {
-            throw new InvalidQuestionException("QUES-001", "Entered question uuid does not exist");
-
         }
         return questionEntity;
     }
@@ -80,12 +78,12 @@ public class QuestionService {
     @Transactional(propagation=Propagation.REQUIRED)
 
     public List<QuestionEntity> getUserQuestion(final String userId) throws UserNotFoundException {
+        UserEntity userEntity= userDao.getUserByUuid(userId);
+        if(userEntity==null){
+            throw new UserNotFoundException("USR-001","User with entered uuid whose question details are to be seen does not exist");
+        }
+            return  questionDao.getUserQuestion(userEntity);
 
-       if(questionDao.getUserQuestion(userId).size()==0){
-           throw new UserNotFoundException("USR-001","User with entered uuid whose question details are to be seen does not exist");
-       }else{
-           return questionDao.getUserQuestion(userId);
-       }
     }
 }
 
