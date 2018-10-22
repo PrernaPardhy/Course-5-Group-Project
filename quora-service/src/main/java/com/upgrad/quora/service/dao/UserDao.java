@@ -98,7 +98,50 @@ public class UserDao {
                 .setParameter("uuid", userUuid).getResultList();
         return listQuestions;
     }
+
+    public QuestionEntity questionById(final int questionId) {
+        try {
+            return entityManager.createNamedQuery("questionById", QuestionEntity.class).setParameter("id", questionId)
+                    .getSingleResult();
+        }catch (NoResultException nre){
+            return null;
+        }
+    }
+
+    public QuestionEntity getUuidQuestion(final String questionContent) {
+        try {
+            return entityManager.createNamedQuery("questionByContent", QuestionEntity.class).setParameter("content", questionContent)
+                    .getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
+    }
+
+    public void updateQuestion(final QuestionEntity questionEntity) {
+        entityManager.merge(questionEntity);
+    }
+
+    public void deleteQuestion(final QuestionEntity questionEntity) {
+        entityManager.createQuery("delete from QuestionEntity q where q.id =" + "'" + questionEntity.getId() + "'").executeUpdate();
+      //  entityManager.createNamedQuery("deleteQuestion", QuestionEntity.class).setParameter("id", questionEntity.getId());
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
