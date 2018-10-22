@@ -1,5 +1,6 @@
 package com.upgrad.quora.api.controller;
 
+import com.upgrad.quora.api.model.QuestionDetailsResponse;
 import com.upgrad.quora.api.model.QuestionRequest;
 import com.upgrad.quora.api.model.QuestionResponse;
 import com.upgrad.quora.service.business.QuestionService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping("/")
@@ -28,13 +30,7 @@ public class QuestionController {
                                                            @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException {
 
         QuestionEntity questionEntity=new QuestionEntity();
-
-      //  byte[] decode=Base64.getDecoder().decode(authorization.split("Basic ")[1]);
-     //   String decodeText=new String(decode);
-     //   String[] decodedArray=decodeText.split(":");
-
         UserAuthEntity userAuth= questionService.authenticate(authorization);
-
         questionEntity.setUuid(userAuth.getUuid());
         questionEntity.setContent(questionRequest.getContent());
         ZonedDateTime now=ZonedDateTime.now();
@@ -46,5 +42,33 @@ public class QuestionController {
         QuestionResponse questionResponse=new QuestionResponse().id(userQuestion.getUuid()).status("Question Saved");
 
         return new ResponseEntity<QuestionResponse>(questionResponse,HttpStatus.CREATED);
+    }
+
+    @RequestMapping(method=RequestMethod.GET, path="/question/all", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<QuestionDetailsResponse> getAllQuestions(@RequestHeader("authorization") final String authorization) throws AuthorizationFailedException {
+      UserAuthEntity userAuth= questionService.authenticate(authorization);
+      String userAuth1=userAuth.getUuid();
+      String usrAuth2=userAuth1;
+
+     List<QuestionEntity> listQuestions=questionService.getQuestions(userAuth.getUuid());
+
+     QuestionDetailsResponse questionDetailsResponse=new QuestionDetailsResponse().id(userAuth.getUuid());
+        String questionString="";
+        int i=listQuestions.size();
+     for(QuestionEntity Qe:listQuestions){
+
+         questionString=i+") "+Qe.getContent()+" "+questionString;
+         i--;
+
+
+     }
+        questionDetailsResponse.content(questionString);
+
+
+    return new ResponseEntity<QuestionDetailsResponse>(questionDetailsResponse,HttpStatus.OK);
+
+
+
+
     }
 }

@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class QuestionService {
 
@@ -36,5 +38,11 @@ public class QuestionService {
         userDao.saveQuestion(questionEntity);
         return questionEntity;
 
+    }
+
+    @Transactional(propagation=Propagation.REQUIRED)
+    public List<QuestionEntity> getQuestions(final String UserUuid){
+
+        return userDao.questionUuid(UserUuid);
     }
 }
