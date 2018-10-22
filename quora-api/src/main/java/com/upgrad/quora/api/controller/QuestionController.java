@@ -6,6 +6,7 @@ import com.upgrad.quora.service.entity.QuestionEntity;
 import com.upgrad.quora.service.entity.UserAuthEntity;
 import com.upgrad.quora.service.exception.AuthorizationFailedException;
 import com.upgrad.quora.service.exception.InvalidQuestionException;
+import com.upgrad.quora.service.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -44,7 +45,7 @@ public class QuestionController {
     public ResponseEntity<QuestionDetailsResponse> getAllQuestions(@RequestHeader("authorization") final String authorization) throws AuthorizationFailedException {
       UserAuthEntity userAuth= questionService.authenticate(authorization);
 
-     List<QuestionEntity> listQuestions=questionService.getQuestions(userAuth.getUuid());
+     List<QuestionEntity> listQuestions=questionService.getQuestions();
 
      QuestionDetailsResponse questionDetailsResponse=new QuestionDetailsResponse().id(userAuth.getUuid());
         String questionString="";
@@ -90,7 +91,30 @@ public class QuestionController {
         return new ResponseEntity<QuestionDeleteResponse>(questionDeleteResponse, HttpStatus.OK);
     }
 
+    @RequestMapping(method=RequestMethod.GET,path="/all/{userId}",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<QuestionDetailsResponse> getAllQuestionsByUser(@PathVariable("userId") final String userUuid, @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, UserNotFoundException {
+        UserAuthEntity userAuth= questionService.authenticate(authorization);
 
+        List<QuestionEntity> listQuestions=questionService.getUserQuestion(userUuid);
+
+        QuestionDetailsResponse questionDetailsResponse=new QuestionDetailsResponse().id(userAuth.getUuid());
+        String questionString="";
+        int i=listQuestions.size();
+        for(QuestionEntity Qe:listQuestions){
+
+            questionString=i+") "+Qe.getContent()+" "+questionString;
+            i--;
+
+
+        }
+        questionDetailsResponse.content(questionString);
+
+
+        return new ResponseEntity<QuestionDetailsResponse>(questionDetailsResponse,HttpStatus.OK);
+
+
+
+    }
 
 
 }

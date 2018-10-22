@@ -1,10 +1,12 @@
 package com.upgrad.quora.service.business;
 
+import com.upgrad.quora.service.dao.QuestionDao;
 import com.upgrad.quora.service.dao.UserDao;
 import com.upgrad.quora.service.entity.QuestionEntity;
 import com.upgrad.quora.service.entity.UserAuthEntity;
 import com.upgrad.quora.service.exception.AuthorizationFailedException;
 import com.upgrad.quora.service.exception.InvalidQuestionException;
+import com.upgrad.quora.service.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -17,6 +19,9 @@ public class QuestionService {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private QuestionDao questionDao;
 
     @Transactional(propagation = Propagation.REQUIRED)
 
@@ -36,20 +41,20 @@ public class QuestionService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public QuestionEntity saveUserQuestion(final QuestionEntity questionEntity) {
-        userDao.saveQuestion(questionEntity);
+        questionDao.saveQuestion(questionEntity);
         return questionEntity;
 
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public List<QuestionEntity> getQuestions(final String UserUuid) {
+    public List<QuestionEntity> getQuestions() {
 
-        return userDao.questionUuid(UserUuid);
+        return questionDao.questionAll();
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
     public QuestionEntity getQuestionAuthenticate(final UserAuthEntity userAuthEntity, final int questionId) throws AuthorizationFailedException, InvalidQuestionException {
-        QuestionEntity questionEntity = userDao.questionById(questionId);
+        QuestionEntity questionEntity = questionDao.questionById(questionId);
         if(questionEntity==null){
             throw new InvalidQuestionException("QUES-001","Entered Question uuid does not exist");
         }else if (questionEntity.getUser().getUuid() != userAuthEntity.getUser().getUuid() && questionEntity.getUser().getRole() == "nonadmin") {
@@ -64,12 +69,23 @@ public class QuestionService {
 
     @Transactional(propagation=Propagation.REQUIRED)
     public void updateUserQuestion(final QuestionEntity questionEntityt) {
-      userDao.updateQuestion(questionEntityt);
+      questionDao.updateQuestion(questionEntityt);
     }
 
     @Transactional(propagation=Propagation.REQUIRED)
     public void deleteQuestion(final QuestionEntity questionEntity){
-        userDao.deleteQuestion(questionEntity);
+        questionDao.deleteQuestion(questionEntity);
+    }
+
+    @Transactional(propagation=Propagation.REQUIRED)
+
+    public List<QuestionEntity> getUserQuestion(final String userId) throws UserNotFoundException {
+
+       if(questionDao.getUserQuestion(userId).size()==0){
+           throw new UserNotFoundException("USR-001","User with entered uuid whose question details are to be seen does not exist");
+       }else{
+           return questionDao.getUserQuestion(userId);
+       }
     }
 }
 
