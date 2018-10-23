@@ -4,6 +4,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -11,7 +13,10 @@ import java.io.Serializable;
 import java.time.ZonedDateTime;
 
 @Entity
-@Table(name="user_auth", schema = "quora")
+@Table(name="user_auth")
+@NamedQueries({
+        @NamedQuery(name="userAuthTokenByAccessToken",query = "select ut from UserAuthEntity ut where ut.accessToken = :accessToken ")
+})
 
 public class UserAuthEntity implements Serializable {
 
@@ -26,7 +31,9 @@ public class UserAuthEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name="USER_ID")
+    @OnDelete(action=OnDeleteAction.CASCADE)
     private UserEntity user;
+
 
     @Column(name="ACCESS_TOKEN")
     private String accessToken;

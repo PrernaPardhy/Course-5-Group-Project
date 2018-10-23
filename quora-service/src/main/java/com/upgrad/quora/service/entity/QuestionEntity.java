@@ -5,13 +5,21 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 
 @Entity
-@Table(name="question", schema = "quora")
+@Table(name="question")
+@NamedQueries({
+        @NamedQuery(name="questionByUuid",query="select q from QuestionEntity q  where q.uuid =:uuid"),
+        @NamedQuery(name="questionById", query="select q from QuestionEntity q inner join q.user u where u.id =:userid"),
+        @NamedQuery(name="questionAll", query="select q from QuestionEntity q")
+
+})
 
 public class QuestionEntity implements Serializable {
 
@@ -31,7 +39,8 @@ public class QuestionEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name="USER_ID")
-    private UserEntity user;
+   @OnDelete(action=OnDeleteAction.CASCADE)
+     private UserEntity user;
 
     public Integer getId() {
         return id;
