@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class AnswerService {
     @Autowired
@@ -73,6 +75,17 @@ public class AnswerService {
     @Transactional(propagation=Propagation.REQUIRED)
     public void deleteAnswer(final AnswerEntity answerEntity){
         answerDao.deleteAnswer(answerEntity);
+    }
+
+    public List<AnswerEntity> getAnswerQuestion(final String questionId) throws InvalidQuestionException {
+        List<AnswerEntity> answerEntityList = answerDao.getAnswerQuestion(questionId);
+        QuestionEntity questionEntity= answerDao.questionAuth(questionId);
+        if(questionEntity==null){
+            throw  new InvalidQuestionException("QUES-001","The question entered is invalid");
+        }else {
+            return  answerDao.getAnswerQuestion(questionId);
+        }
+
     }
 
 
