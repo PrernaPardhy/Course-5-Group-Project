@@ -14,7 +14,8 @@ import java.time.ZonedDateTime;
 @Table(name="answer")
 
 @NamedQueries({
-        @NamedQuery(name="answerByUuid", query="select a from AnswerEntity a where a.uuid=:uuid")
+        @NamedQuery(name="answerByUuid", query="select a from AnswerEntity a where a.uuid=:uuid"),
+        @NamedQuery(name="ansByQuestion", query = "select a from AnswerEntity a inner join a.question q where q.id=:questionId")
 })
 
 

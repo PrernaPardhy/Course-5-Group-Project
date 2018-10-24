@@ -40,10 +40,17 @@ public class QuestionDao {
 
 
     public List<QuestionEntity> questionAll() {
-        List<QuestionEntity> listQuestions = entityManager.createNamedQuery("questionAll", QuestionEntity.class)
-                .getResultList();
-        return listQuestions;
+        try {
+            return entityManager.createNamedQuery("questionAll", QuestionEntity.class)
+                    .getResultList();
+
+        } catch (NoResultException nre) {
+            return null;
+        }
     }
+
+
+
 
     public QuestionEntity questionById(final String questionId) {
         try {

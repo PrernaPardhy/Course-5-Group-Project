@@ -59,6 +59,17 @@ public class QuestionService {
         if(questionEntity==null){
             throw new InvalidQuestionException("QUES-001","Entered Question uuid does not exist");
         }else if (questionEntity.getUser().getUuid() != userAuthEntity.getUser().getUuid() && questionEntity.getUser().getRole() == "nonadmin") {
+            throw new AuthorizationFailedException("ATHR-003", "Only the question owner can delete the question");
+        }
+        return questionEntity;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public QuestionEntity getQuestionAuthenticateEdit(final UserAuthEntity userAuthEntity, final String questionId) throws AuthorizationFailedException, InvalidQuestionException {
+        QuestionEntity questionEntity = questionDao.questionById(questionId);
+        if(questionEntity==null){
+            throw new InvalidQuestionException("QUES-001","Entered Question uuid does not exist");
+        }else if (questionEntity.getUser().getUuid() != userAuthEntity.getUser().getUuid()) {
             throw new AuthorizationFailedException("ATHR-003", "Only the question owner can edit the question");
         }
         return questionEntity;
