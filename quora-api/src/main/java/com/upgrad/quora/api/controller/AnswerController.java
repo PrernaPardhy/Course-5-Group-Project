@@ -1,5 +1,7 @@
 package com.upgrad.quora.api.controller;
 
+import com.upgrad.quora.api.model.AnswerEditRequest;
+import com.upgrad.quora.api.model.AnswerEditResponse;
 import com.upgrad.quora.api.model.AnswerRequest;
 import com.upgrad.quora.api.model.AnswerResponse;
 import com.upgrad.quora.service.business.AnswerService;
@@ -45,5 +47,19 @@ public class AnswerController {
 
     }
 //editAnswerContent - "/answer/edit/{answerId}"
+    @RequestMapping(method = RequestMethod.PUT, path ="/answer/edit/{answerId}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<AnswerEditResponse> editAnswer(final AnswerEditRequest answerEditRequest, @PathVariable ("answerId") final String answerId,
+                                                         @RequestHeader("authorization") final String authorization ) throws AuthorizationFailedException {
+        AnswerEntity answerEntity = new AnswerEntity();
+        UserAuthEntity userAuthEntity=answerService.anthenticate(authorization);
+        answerEntity.setAns(answerEditRequest.getContent());
+        answerEntity.setDate(ZonedDateTime.now());
+
+        answerService.editAnswer(answerEntity);
+        AnswerEditResponse answerEditResponse = new AnswerEditResponse().id(answerEntity.getUuid()).status("ANSWER EDITED");
+
+        return new ResponseEntity<AnswerEditResponse>(answerEditResponse, HttpStatus.OK);
+
+    }
 
 }
