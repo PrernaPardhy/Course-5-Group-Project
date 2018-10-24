@@ -1,11 +1,14 @@
 package com.upgrad.quora.api.controller;
 
+import com.upgrad.quora.api.model.AnswerEditRequest;
+import com.upgrad.quora.api.model.AnswerEditResponse;
 import com.upgrad.quora.api.model.AnswerRequest;
 import com.upgrad.quora.api.model.AnswerResponse;
 import com.upgrad.quora.service.business.AnswerService;
 import com.upgrad.quora.service.entity.AnswerEntity;
 import com.upgrad.quora.service.entity.QuestionEntity;
 import com.upgrad.quora.service.entity.UserAuthEntity;
+import com.upgrad.quora.service.exception.AnswerNotFoundException;
 import com.upgrad.quora.service.exception.AuthorizationFailedException;
 import com.upgrad.quora.service.exception.InvalidQuestionException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +45,23 @@ public class AnswerController {
         AnswerResponse answerResponse=new AnswerResponse().id(answerEntity.getUuid()).status("ANSWER CREATED");
 
         return new ResponseEntity<AnswerResponse>(answerResponse, HttpStatus.CREATED);
+
+    }
+
+    @RequestMapping(method=RequestMethod.POST,path="/answer/edit/{answerId}", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+
+    public ResponseEntity<AnswerEditResponse> editAnswerContent (final AnswerEditRequest answerEditRequest,
+                                                                 @PathVariable("answerId") final String answerId,
+                                                                 @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, AnswerNotFoundException {
+
+        UserAuthEntity userAuth= answerService.anthenticate(authorization);
+
+        AnswerEntity answerEntity= answerService.authenticateUser(userAuth,answerId);
+        answerEntity.setAns(answerEditRequest.getContent());
+
+        answerService.editAnswer(answerEntity);
+        AnswerEditResponse answerEditResponse=new AnswerEditResponse().id(answerEntity.getUuid()).status("ANSWER EDITED");
+        return new ResponseEntity<AnswerEditResponse>(answerEditResponse,HttpStatus.OK);
 
     }
 

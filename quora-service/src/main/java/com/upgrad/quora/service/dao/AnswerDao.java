@@ -30,6 +30,21 @@ public class AnswerDao {
         entityManager.persist(answerEntity);
         return answerEntity;
     }
+
+    public AnswerEntity getUserById(final String answerId){
+        try {
+            return entityManager.createNamedQuery("answerByUuid", AnswerEntity.class).setParameter("uuid", answerId)
+                    .getSingleResult();
+        }catch(NoResultException nre){
+            return null;
+        }
+
+    }
+
+    public void updateAnswer(final AnswerEntity answerEntity){
+        entityManager.merge(answerEntity);
+
+    }
 }
 
 

@@ -5,6 +5,7 @@ import com.upgrad.quora.service.dao.UserDao;
 import com.upgrad.quora.service.entity.AnswerEntity;
 import com.upgrad.quora.service.entity.QuestionEntity;
 import com.upgrad.quora.service.entity.UserAuthEntity;
+import com.upgrad.quora.service.exception.AnswerNotFoundException;
 import com.upgrad.quora.service.exception.AuthorizationFailedException;
 import com.upgrad.quora.service.exception.InvalidQuestionException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,25 @@ public class AnswerService {
     public AnswerEntity createAnswer(final AnswerEntity answerEntity){
        answerDao.saveAnswer(answerEntity);
        return  answerEntity;
+    }
+
+    @Transactional(propagation=Propagation.REQUIRED)
+    public AnswerEntity authenticateUser(final UserAuthEntity userAuth, final String answerId) throws AnswerNotFoundException, AuthorizationFailedException {
+      AnswerEntity answerEntity= answerDao.getUserById(answerId);
+        if (answerEntity == null) {
+            throw new AnswerNotFoundException("ANS-001","Entered answer uuid does not exist");
+        }else if(userAuth.getUser().getUuid()!=answerEntity.getUser().getUuid()){
+            throw new AuthorizationFailedException("ATHR-003","Only the answer owner can edit the answer");
+
+        }else{
+            return answerEntity;
+        }
+
+    }
+
+    @Transactional(propagation=Propagation.REQUIRED)
+    public void editAnswer(final AnswerEntity answerEntity){
+       answerDao.updateAnswer(answerEntity);
     }
 
 
