@@ -1,13 +1,11 @@
 package com.upgrad.quora.api.controller;
 
-import com.upgrad.quora.api.model.AnswerEditRequest;
-import com.upgrad.quora.api.model.AnswerEditResponse;
-import com.upgrad.quora.api.model.AnswerRequest;
-import com.upgrad.quora.api.model.AnswerResponse;
+import com.upgrad.quora.api.model.*;
 import com.upgrad.quora.service.business.AnswerService;
 import com.upgrad.quora.service.entity.AnswerEntity;
 import com.upgrad.quora.service.entity.QuestionEntity;
 import com.upgrad.quora.service.entity.UserAuthEntity;
+import com.upgrad.quora.service.exception.AnswerNotFoundException;
 import com.upgrad.quora.service.exception.AuthorizationFailedException;
 import com.upgrad.quora.service.exception.InvalidQuestionException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +29,7 @@ public class AnswerController {
                                                          @RequestHeader("authorization") final String authorization) throws InvalidQuestionException, AuthorizationFailedException {
         AnswerEntity answerEntity=new AnswerEntity();
         QuestionEntity questionEntity= answerService.authenticateQuestion(questionId);
-        UserAuthEntity userAuthEntity= answerService.anthenticate(authorization);
+        UserAuthEntity userAuthEntity= answerService.authenticate(authorization);
 
         answerEntity.setAns(answerRequest.getAnswer());
         ZonedDateTime now=ZonedDateTime.now();
@@ -51,7 +49,7 @@ public class AnswerController {
     public ResponseEntity<AnswerEditResponse> editAnswer(final AnswerEditRequest answerEditRequest, @PathVariable ("answerId") final String answerId,
                                                          @RequestHeader("authorization") final String authorization ) throws AuthorizationFailedException {
         AnswerEntity answerEntity = new AnswerEntity();
-        UserAuthEntity userAuthEntity=answerService.anthenticate(authorization);
+        UserAuthEntity userAuthEntity=answerService.authenticate(authorization);
         answerEntity.setAns(answerEditRequest.getContent());
         answerEntity.setDate(ZonedDateTime.now());
 
@@ -60,6 +58,19 @@ public class AnswerController {
 
         return new ResponseEntity<AnswerEditResponse>(answerEditResponse, HttpStatus.OK);
 
+    }
+
+    //delete answer
+    @RequestMapping(method=RequestMethod.DELETE,path="/answer/delete/{answerId}",consumes=MediaType.APPLICATION_JSON_UTF8_VALUE,produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<AnswerDeleteResponse> deleteanswer(@PathVariable("answerId") final String answerId,
+                                                                              @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, InvalidQuestionException, AnswerNotFoundException {
+        UserAuthEntity userAuth = answerService.authenticate(authorization);
+        AnswerEntity answerEntity = answerService.getAnswerAuthenticate(userAuth, answerId);
+        answerService.deleteAnswer(answerEntity);
+
+        AnswerDeleteResponse answerDeleteResponse = new AnswerDeleteResponse().id(answerEntity.getUuid()).status("ANSWER DELETED");
+
+        return new ResponseEntity<AnswerDeleteResponse>(answerDeleteResponse, HttpStatus.OK);
     }
 
 }

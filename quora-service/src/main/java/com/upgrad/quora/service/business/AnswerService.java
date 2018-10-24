@@ -35,7 +35,7 @@ public class AnswerService {
     }
 
     @Transactional(propagation=Propagation.REQUIRED)
-    public UserAuthEntity anthenticate(final String authorization) throws AuthorizationFailedException {
+    public UserAuthEntity authenticate(final String authorization) throws AuthorizationFailedException {
         UserAuthEntity userTokenExists = userDao.getUserAuthToken(authorization);
         if (userTokenExists == null) {
             throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
@@ -68,6 +68,11 @@ public class AnswerService {
     public AnswerEntity editAnswer(final AnswerEntity answerEntity){
         answerDao.saveAnswer(answerEntity);
         return  answerEntity;
+    }
+
+    @Transactional(propagation=Propagation.REQUIRED)
+    public void deleteAnswer(final AnswerEntity answerEntity){
+        answerDao.deleteAnswer(answerEntity);
     }
 
 

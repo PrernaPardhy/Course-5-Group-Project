@@ -44,6 +44,10 @@ public class AnswerDao {
         entityManager.persist(answerEntity);
         return answerEntity;
     }
+    public void deleteAnswer(final AnswerEntity answerEntity) {
+        entityManager.createQuery("delete from AnswerEntity a where a.uuid =" + "'" + answerEntity.getUuid() + "'").executeUpdate();
+
+    }
 }
 
 
