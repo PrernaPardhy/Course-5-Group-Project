@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 @Service
 public class AuthenticationService {
@@ -37,7 +38,7 @@ public class AuthenticationService {
 
            UserAuthEntity userAuthToken=new UserAuthEntity();
            userAuthToken.setUser(userEntity);
-           userAuthToken.setUuid(userEntity.getUuid());
+           userAuthToken.setUuid(UUID.randomUUID().toString());
            ZonedDateTime now=ZonedDateTime.now();
            ZonedDateTime expiresAt=now.plusHours(8);
            userAuthToken.setAccessToken(jwtTokenProvider.generateToken(userEntity.getUuid(),now,expiresAt));
@@ -60,15 +61,18 @@ public class AuthenticationService {
     public UserAuthEntity getUserByToken(final String authorization) throws SignOutRestrictedException {
 
        UserAuthEntity userTokenExists= userDao.getUserAuthToken(authorization);
-       if(userTokenExists!=null){
-           ZonedDateTime now=ZonedDateTime.now();
-           userTokenExists.setLogoutAt(now);
-          userDao.updateAuthToken(userTokenExists);
-          return userTokenExists;
+       if(userTokenExists==null) {
+           throw new SignOutRestrictedException("SGR-001", "User is not Signed in");
 
        }else{
-           throw new SignOutRestrictedException("SGR-001","User is not Signed in");
+        return userTokenExists;
+
        }
 
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void authTokenUpdate(final UserAuthEntity userAuthEntity){
+        userDao.updateAuthToken(userAuthEntity);
     }
 }

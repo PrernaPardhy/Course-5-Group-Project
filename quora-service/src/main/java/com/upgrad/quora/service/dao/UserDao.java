@@ -21,7 +21,6 @@ public class UserDao {
         String userName = userEntity.getUsername();
         String userEmail = userEntity.getEmail();
 
-
         try {
             if (entityManager.createNamedQuery("userByName", UserEntity.class).setParameter("username", userName)
                     .setParameter("email", userEmail).getSingleResult().getUsername().equals(userEntity.getUsername()))
@@ -29,12 +28,15 @@ public class UserDao {
             else if (entityManager.createNamedQuery("userByName", UserEntity.class).setParameter("username", userName)
                     .setParameter("email", userEmail).getSingleResult().getEmail().equals(userEntity.getEmail()))
                 throw new SignUpRestrictedException("SGR-002", "This user has already been registered, try with any other emailId");
+            else{
+                entityManager.persist(userEntity);
+                return userEntity;
+            }
 
-            return null;
 
         } catch (NoResultException nre) {
-            entityManager.persist(userEntity);
-            return userEntity;
+            return null;
+
         }
     }
 

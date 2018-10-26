@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.ZonedDateTime;
 import java.util.Base64;
 import java.util.UUID;
 
@@ -77,10 +78,15 @@ public class UserController {
         return new ResponseEntity<SigninResponse>(signinResponse, headers, HttpStatus.OK);
     }
 
-    @RequestMapping(method=RequestMethod.POST,path="/user/signout", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(method=RequestMethod.POST,path="/user/signout", produces=MediaType.APPLICATION_JSON_UTF8_VALUE,consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<SignoutResponse> signOut(@RequestHeader("authorization") final String authorization) throws AuthenticationFailedException, SignOutRestrictedException {
 
         UserAuthEntity updateuserAuthToken=authenticationService.getUserByToken(authorization);
+        ZonedDateTime now=ZonedDateTime.now();
+        updateuserAuthToken.setLogoutAt(now);
+      //  updateuserAuthToken.setAccessToken("");
+
+        authenticationService.authTokenUpdate(updateuserAuthToken);
 
         SignoutResponse signoutResponse=new SignoutResponse().id(updateuserAuthToken.getUuid()).message("SIGNED OUT SUCCESSFULLY");
         return new ResponseEntity<SignoutResponse>(signoutResponse,HttpStatus.OK);

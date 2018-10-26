@@ -14,7 +14,12 @@ public class RestExceptionHandler {
     @ExceptionHandler(SignUpRestrictedException.class)
 
     public ResponseEntity<ErrorResponse> signupRestrictedException(SignUpRestrictedException exe, WebRequest request){
-        return new ResponseEntity<ErrorResponse>(new ErrorResponse().code(exe.getCode()).message(exe.getErrorMessage()),HttpStatus.NOT_FOUND);
+        return new ResponseEntity<ErrorResponse>(new ErrorResponse().code(exe.getCode()).message(exe.getErrorMessage()),HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @ExceptionHandler(SignOutRestrictedException.class)
+    public ResponseEntity<ErrorResponse> signoutRestrictedException(SignOutRestrictedException exe,WebRequest request){
+        return new ResponseEntity<ErrorResponse>(new ErrorResponse().code(exe.getCode()).message(exe.getErrorMessage()),HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(AuthenticationFailedException.class)
