@@ -25,16 +25,19 @@ public class UserDao {
             if (entityManager.createNamedQuery("userByName", UserEntity.class).setParameter("username", userName)
                     .setParameter("email", userEmail).getSingleResult().getUsername().equals(userEntity.getUsername()))
                 throw new SignUpRestrictedException("SGR-001", "Try any other username. This username has already been taken");
-            else if (entityManager.createNamedQuery("userByName", UserEntity.class).setParameter("username", userName)
-                    .setParameter("email", userEmail).getSingleResult().getEmail().equals(userEntity.getEmail()))
-                throw new SignUpRestrictedException("SGR-002", "This user has already been registered, try with any other emailId");
-            else{
+           else {
+                if (entityManager.createNamedQuery("userByName", UserEntity.class).setParameter("username", userName)
+                        .setParameter("email", userEmail).getSingleResult().getEmail().equals(userEntity.getEmail()))
+                    throw new SignUpRestrictedException("SGR-002", "This user has already been registered, try with any other emailId");
+            }
+            // else{
                 entityManager.persist(userEntity);
                 return userEntity;
-            }
+           // }
 
 
         } catch (NoResultException nre) {
+            entityManager.persist(userEntity);
             return null;
 
         }
@@ -59,10 +62,13 @@ public class UserDao {
 
     public UserAuthEntity getUserAuthToken(final String accessToken) {
 
+        UserAuthEntity userAuthEntity;
         try {
-            return entityManager.createNamedQuery("userAuthTokenByAccessToken", UserAuthEntity.class)
+            userAuthEntity = entityManager.createNamedQuery("userAuthTokenByAccessToken", UserAuthEntity.class)
                     .setParameter("accessToken", accessToken).getSingleResult();
-            // entityManager.merge(userAuthEntity);
+
+            return userAuthEntity;
+
 
         } catch (NoResultException nre) {
             return null;
