@@ -1,7 +1,6 @@
 package com.upgrad.quora.service.business;
 
 import com.upgrad.quora.service.dao.UserDao;
-import com.upgrad.quora.service.entity.UserAuthEntity;
 import com.upgrad.quora.service.entity.UserEntity;
 import com.upgrad.quora.service.exception.AuthorizationFailedException;
 import com.upgrad.quora.service.exception.UserNotFoundException;
@@ -20,11 +19,15 @@ public class AdminBusinessService {
 
     @Transactional(propagation=Propagation.REQUIRED)
     public String getUserAuth(final String userUuid,final String authorization) throws AuthorizationFailedException, UserNotFoundException {
-        UserAuthEntity userAuthTokenExist= userDao.getUserAuthToken(authorization);
 
         UserEntity getUserEntity=userBusinessService.getUser(userUuid,authorization);
-        String role=getUserEntity.getRole();
-        String role1=role;
+
+        //UserAuthEntity userAuthExists= userDao.getUserAuthToken(authorization);
+        //UserEntity getUser= userDao.getUserByUuid(userUuid);
+
+
+        //String role=getUserEntity.getRole();
+        //String role1=role;
 
         if(getUserEntity.getRole().equals("nonadmin")){
             throw new AuthorizationFailedException("ATHR-003","Unauthorized Access, Entered user is not an admin");

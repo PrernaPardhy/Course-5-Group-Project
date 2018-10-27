@@ -18,18 +18,24 @@ public class SignupBusinessService {
     private PasswordCryptographyProvider cryptographyProvider;
 
 
-    @Transactional(propagation=Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED)
     public UserEntity signUp(final UserEntity userEntity) throws SignUpRestrictedException {
 
 
-       String[] encryptedText=cryptographyProvider.encrypt(userEntity.getPassword());
-       userEntity.setSalt(encryptedText[0]);
-       userEntity.setPassword(encryptedText[1]);
+        String[] encryptedText = cryptographyProvider.encrypt(userEntity.getPassword());
+        userEntity.setSalt(encryptedText[0]);
+        userEntity.setPassword(encryptedText[1]);
 
-        return userDao.createUser(userEntity);
-
+        if (userDao.checkUserName(userEntity) != null) {
+            throw new SignUpRestrictedException("SGR-001", "Try any other username. This username has already been taken");
+        } else if (userDao.checkEmail(userEntity) != null) {
+            throw new SignUpRestrictedException("SGR-002", "This user has already been registered, try with any other emailId");
+        } else {
+            return userDao.createUser(userEntity);
+        }
     }
-
-
-
 }
+
+
+
+

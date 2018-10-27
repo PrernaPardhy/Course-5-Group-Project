@@ -18,23 +18,32 @@ public class UserDao {
     private EntityManager entityManager;
 
     public UserEntity createUser(final UserEntity userEntity) throws SignUpRestrictedException {
+        entityManager.persist(userEntity);
+        return userEntity;
+    }
+    public UserEntity checkUserName(final UserEntity userEntity) throws SignUpRestrictedException {
         String userName = userEntity.getUsername();
+
+
+        try {
+            return entityManager.createNamedQuery("userByName",UserEntity.class).setParameter("username",userName).getSingleResult();
+
+        } catch (NoResultException nre) {
+
+            return null;
+
+        }
+    }
+
+    public UserEntity checkEmail(final UserEntity userEntity) throws SignUpRestrictedException {
+
         String userEmail = userEntity.getEmail();
 
         try {
-            if (entityManager.createNamedQuery("userByName", UserEntity.class).setParameter("username", userName)
-                    .setParameter("email", userEmail).getSingleResult().getUsername().equals(userEntity.getUsername()))
-                throw new SignUpRestrictedException("SGR-001", "Try any other username. This username has already been taken");
-            else if (entityManager.createNamedQuery("userByName", UserEntity.class).setParameter("username", userName)
-                    .setParameter("email", userEmail).getSingleResult().getEmail().equals(userEntity.getEmail()))
-                throw new SignUpRestrictedException("SGR-002", "This user has already been registered, try with any other emailId");
-            else{
-                entityManager.persist(userEntity);
-                return userEntity;
-            }
-
+            return entityManager.createNamedQuery("userByEmail",UserEntity.class).setParameter("email",userEmail).getSingleResult();
 
         } catch (NoResultException nre) {
+
             return null;
 
         }
@@ -59,10 +68,13 @@ public class UserDao {
 
     public UserAuthEntity getUserAuthToken(final String accessToken) {
 
+        UserAuthEntity userAuthEntity;
         try {
-            return entityManager.createNamedQuery("userAuthTokenByAccessToken", UserAuthEntity.class)
+            userAuthEntity = entityManager.createNamedQuery("userAuthTokenByAccessToken", UserAuthEntity.class)
                     .setParameter("accessToken", accessToken).getSingleResult();
-            // entityManager.merge(userAuthEntity);
+
+            return userAuthEntity;
+
 
         } catch (NoResultException nre) {
             return null;

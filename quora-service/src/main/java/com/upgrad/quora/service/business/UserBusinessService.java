@@ -24,24 +24,22 @@ public class UserBusinessService {
     public UserEntity getUser(final String userId, final String authorization) throws AuthorizationFailedException, UserNotFoundException {
        UserAuthEntity userAuthExists= userDao.getUserAuthToken(authorization);
         UserEntity getUser= userDao.getUserByUuid(userId);
-       boolean bol= userAuthExists.getExpiresAt().isBefore(ZonedDateTime.now());
-       ZonedDateTime a1=userAuthExists.getExpiresAt();
-       ZonedDateTime a2=ZonedDateTime.now();
-       boolean bol1=bol;
 
-       if(userAuthExists.getAccessToken()==null){
+        if(getUser==null){
+            throw new UserNotFoundException("'USR-001","User with entered uuid does not exist");
+
+        }
+        if(userAuthExists==null){
            throw new AuthorizationFailedException("ATHR-001","User has not signed in");
 
 
-       }else if(userAuthExists.getLogoutAt()!=null || userAuthExists.getExpiresAt().isBefore(ZonedDateTime.now())){
+       }else {
+           if(userAuthExists.getLogoutAt()!=null || userAuthExists.getExpiresAt().isBefore(ZonedDateTime.now())){
            throw new AuthorizationFailedException("ATHR-002","User is signed out.Sign in first to get user details");
 
-       }else{
+             }
 
-          if(getUser==null){
-              throw new UserNotFoundException("'USR-001","User with entered uuid does not exist");
 
-          }
 
        }
 
