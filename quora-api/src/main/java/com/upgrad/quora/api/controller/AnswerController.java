@@ -51,7 +51,7 @@ public class AnswerController {
                                                                 @PathVariable("answerId") final String answerId,
                                                                 @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, AnswerNotFoundException {
 
-        UserAuthEntity userAuth = answerService.authenticate(authorization);
+        UserAuthEntity userAuth = answerService.authenticateEdit(authorization);
 
         AnswerEntity answerEntity = answerService.authenticateUser(userAuth, answerId);
         answerEntity.setAns(answerEditRequest.getContent());
@@ -66,34 +66,34 @@ public class AnswerController {
     @RequestMapping(method = RequestMethod.DELETE, path = "/answer/delete/{answerId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<QuestionDeleteResponse> deleteAnswer(@PathVariable("answerId") final String answerId,
                                                                @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, AnswerNotFoundException {
-        UserAuthEntity userAuthEntity = answerService.authenticate(authorization);
+        UserAuthEntity userAuthEntity = answerService.authenticateDelete(authorization);
         AnswerEntity answerEntity = answerService.authenticateUserDelete(userAuthEntity, answerId);
 
         answerService.deleteAnswer(answerEntity);
-        QuestionDeleteResponse questionDeleteResponse = new QuestionDeleteResponse().id(answerEntity.getUuid()).status("QUESTION DELETED");
+        QuestionDeleteResponse questionDeleteResponse = new QuestionDeleteResponse().id(answerEntity.getUuid()).status("ANSWER DELETED");
         return new ResponseEntity<QuestionDeleteResponse>(questionDeleteResponse, HttpStatus.OK);
     }
 
     @RequestMapping(method=RequestMethod.GET, path="/all/{questionId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<AnswerDetailsResponse> getAllAnswersToQuestion (@PathVariable("questionId") final String questionId,
                                                                           @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, InvalidQuestionException {
-         answerService.authenticate(authorization);
+        answerService.authenticate(authorization);
 
 
-       List<AnswerEntity> answerEntity= answerService.getAnswers(questionId);
+        List<AnswerEntity> answerEntity= answerService.getAnswers(questionId);
         AnswerDetailsResponse answerDetailsResponse=new AnswerDetailsResponse();
         String uuid="";
         String answers="";
-       String questions="";
-       for(AnswerEntity ans: answerEntity){
-          uuid=ans.getUuid()+"   "+uuid;
-          answers=ans.getAns()+"   "+answers;
-         questions=ans.getQuestion().getContent();
-           answerDetailsResponse.questionContent(questions);
-       }
+        String questions="";
+        for(AnswerEntity ans: answerEntity){
+            uuid=ans.getUuid()+"   "+uuid;
+            answers=ans.getAns()+"   "+answers;
+            questions=ans.getQuestion().getContent();
+            answerDetailsResponse.questionContent(questions);
+        }
         answerDetailsResponse.id(uuid).answerContent(answers);
 
-      return new ResponseEntity<AnswerDetailsResponse>(answerDetailsResponse,HttpStatus.OK);
+        return new ResponseEntity<AnswerDetailsResponse>(answerDetailsResponse,HttpStatus.OK);
     }
 }
 
