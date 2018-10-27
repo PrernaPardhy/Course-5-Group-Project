@@ -37,6 +37,33 @@ public class QuestionService {
         } else {
             return userTokenExists;
         }
+    }
+
+    public UserAuthEntity authenticateEdit(final String authorization) throws AuthorizationFailedException {
+
+        UserAuthEntity userTokenExists = userDao.getUserAuthToken(authorization);
+        if (userTokenExists == null) {
+            throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
+
+        } else if (userTokenExists.getLogoutAt() != null) {
+            throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to Edit a question");
+        } else {
+            return userTokenExists;
+        }
+
+    }
+
+    public UserAuthEntity authenticateDelete(final String authorization) throws AuthorizationFailedException {
+
+        UserAuthEntity userTokenExists = userDao.getUserAuthToken(authorization);
+        if (userTokenExists == null) {
+            throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
+
+        } else if (userTokenExists.getLogoutAt() != null) {
+            throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to Delete a question");
+        } else {
+            return userTokenExists;
+        }
 
     }
 
@@ -78,7 +105,7 @@ public class QuestionService {
 
     @Transactional(propagation=Propagation.REQUIRED)
     public void updateUserQuestion(final QuestionEntity questionEntityt) {
-      questionDao.updateQuestion(questionEntityt);
+        questionDao.updateQuestion(questionEntityt);
     }
 
     @Transactional(propagation=Propagation.REQUIRED)
@@ -93,7 +120,7 @@ public class QuestionService {
         if(userEntity==null){
             throw new UserNotFoundException("USR-001","User with entered uuid whose question details are to be seen does not exist");
         }
-            return  questionDao.getUserQuestion(userEntity);
+        return  questionDao.getUserQuestion(userEntity);
 
     }
 }
