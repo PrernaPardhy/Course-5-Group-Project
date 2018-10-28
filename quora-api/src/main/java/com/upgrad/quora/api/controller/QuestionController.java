@@ -22,7 +22,9 @@ import java.util.UUID;
 public class QuestionController {
     @Autowired
     private QuestionService questionService;
-
+//createQuestion - "/question/create"
+//
+//This endpoint is used to create a question in the Quora Application which will be shown to all the users. Any user can access this endpoint.
     @RequestMapping(method=RequestMethod.POST, path="/question/create", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<QuestionResponse> createQuestion(final QuestionRequest questionRequest,
                                                            @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException {
@@ -42,6 +44,9 @@ public class QuestionController {
         return new ResponseEntity<QuestionResponse>(questionResponse,HttpStatus.CREATED);
     }
 
+    //getAllQuestions - "/question/all"
+    //
+    //This endpoint is used to fetch all the questions that have been posted in the application by any user. Any user can access this endpoint.
     @RequestMapping(method=RequestMethod.GET, path="/question/all", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<QuestionDetailsResponse> getAllQuestions(@RequestHeader("authorization") final String authorization) throws AuthorizationFailedException {
         UserAuthEntity userAuth= questionService.authenticate(authorization);
@@ -65,7 +70,9 @@ public class QuestionController {
         return new ResponseEntity<QuestionDetailsResponse>(questionDetailsResponse,HttpStatus.OK);
 
     }
-
+//editQuestionContent - "/question/edit/{questionId}"
+//
+//This endpoint is used to edit a question that has been posted by a user. Note, only the owner of the question can edit the question.
     @RequestMapping(method=RequestMethod.PUT,path="/question/edit/{questionId}",consumes=MediaType.APPLICATION_JSON_UTF8_VALUE,produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<QuestionEditResponse> editQuestionContent (final QuestionEditRequest questionEditRequest,
                                                                      @PathVariable("questionId") final String questionId,
@@ -83,6 +90,9 @@ public class QuestionController {
 
     }
 
+    //deleteQuestion - "/question/delete/{questionId}"
+    //
+    //This endpoint is used to delete a question that has been posted by a user. Note, only the question owner of the question or admin can delete a question.
     @RequestMapping(method=RequestMethod.DELETE,path="/question/delete/{questionId}",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<QuestionDeleteResponse> deleteQuestion(@PathVariable("questionId") final String questionId,
                                                                  @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, InvalidQuestionException {
@@ -95,6 +105,9 @@ public class QuestionController {
         return new ResponseEntity<QuestionDeleteResponse>(questionDeleteResponse, HttpStatus.OK);
     }
 
+    //getAllQuestionsByUser - "/all/{userId}"
+    //
+    //This endpoint is used to fetch all the questions posed by a specific user. Any user can access this endpoint.
     @RequestMapping(method=RequestMethod.GET,path="/all1/{userId}",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<QuestionDetailsResponse> getAllQuestionsByUser(@PathVariable("userId") final String userUuid,
                                                                          @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, UserNotFoundException {
