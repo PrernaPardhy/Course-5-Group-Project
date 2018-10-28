@@ -20,6 +20,14 @@ public class UserBusinessService {
     private UserDao userDao;
 
 
+    /**
+     * This method fetches the user
+     * @param userId
+     * @param authorization
+     * @return UserEntity
+     * @throws AuthorizationFailedException
+     * @throws UserNotFoundException
+     */
     @Transactional(propagation=Propagation.REQUIRED)
     public UserEntity getUser(final String userId, final String authorization) throws AuthorizationFailedException, UserNotFoundException {
        UserAuthEntity userAuthExists= userDao.getUserAuthToken(authorization);
