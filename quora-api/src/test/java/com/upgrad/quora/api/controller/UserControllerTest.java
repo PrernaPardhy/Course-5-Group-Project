@@ -1,15 +1,10 @@
 package com.upgrad.quora.api.controller;
 
-import com.upgrad.quora.service.business.*;
-import com.upgrad.quora.service.dao.AnswerDao;
-import com.upgrad.quora.service.dao.QuestionDao;
-import com.upgrad.quora.service.dao.UserDao;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -19,40 +14,12 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-//@ContextConfiguration(classes=QuoraApiApplication.class)
-//@WebMvcTest(UserController.class)
-
-@SpringBootTest(classes=UserController.class)
+@SpringBootTest
 @AutoConfigureMockMvc
 public class UserControllerTest {
 
     @Autowired
     private MockMvc mvc;
-
-    @MockBean
-    private UserBusinessService userBusinessService;
-
-    @MockBean
-    private SignupBusinessService signupBusinessService;
-
-    @MockBean
-    private AnswerService answerService;
-
-    @MockBean
-    private AnswerDao answerDao;
-
-    @MockBean
-    private UserDao userDao;
-
-    @MockBean
-    private QuestionService questionService;
-
-    @MockBean
-    private QuestionDao questionDao;
-
-    @MockBean
-    private AuthenticationService authenticationService;
-
 
     //This test case passes when you signup with a username that already exists in the database.
     @Test

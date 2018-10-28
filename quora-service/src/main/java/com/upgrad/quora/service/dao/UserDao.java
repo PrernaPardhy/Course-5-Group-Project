@@ -26,24 +26,9 @@ public class UserDao {
 
 
         try {
-<<<<<<< HEAD
             return entityManager.createNamedQuery("userByName",UserEntity.class).setParameter("username",userName).getSingleResult();
 
         } catch (NoResultException nre) {
-=======
-            if (entityManager.createNamedQuery("userByName", UserEntity.class).setParameter("username", userName)
-                    .setParameter("email", userEmail).getSingleResult().getUsername().equals(userEntity.getUsername()))
-                throw new SignUpRestrictedException("SGR-001", "Try any other username. This username has already been taken");
-           else {
-                if (entityManager.createNamedQuery("userByName", UserEntity.class).setParameter("username", userName)
-                        .setParameter("email", userEmail).getSingleResult().getEmail().equals(userEntity.getEmail()))
-                    throw new SignUpRestrictedException("SGR-002", "This user has already been registered, try with any other emailId");
-            }
-            // else{
-                entityManager.persist(userEntity);
-                return userEntity;
-           // }
->>>>>>> 34c584fefb43ddac4d31bbe458bcac8dd007cb3a
 
             return null;
 
@@ -58,20 +43,16 @@ public class UserDao {
             return entityManager.createNamedQuery("userByEmail",UserEntity.class).setParameter("email",userEmail).getSingleResult();
 
         } catch (NoResultException nre) {
-<<<<<<< HEAD
 
-=======
-            entityManager.persist(userEntity);
->>>>>>> 34c584fefb43ddac4d31bbe458bcac8dd007cb3a
             return null;
 
         }
     }
 
 
-    public UserEntity getUserByEmail(final String userName) {
+    public UserEntity getUserByUserName(final String userName) {
         try {
-            return entityManager.createNamedQuery("userByEmail", UserEntity.class).setParameter("email", userName)
+            return entityManager.createNamedQuery("userByName", UserEntity.class).setParameter("username", userName)
                     .getSingleResult();
         } catch (NoResultException nre) {
             return null;

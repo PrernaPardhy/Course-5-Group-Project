@@ -23,10 +23,10 @@ import java.io.Serializable;
 )
 public class UserEntity implements Serializable {
 
-   @Id
-   @Column(name="ID")
-   @GeneratedValue(strategy=GenerationType.IDENTITY)
-   private Integer id;
+    @Id
+    @Column(name="ID")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Integer id;
 
     @Column(name="UUID")
     private String  uuid;
