@@ -24,8 +24,13 @@ public class QuestionService {
     @Autowired
     private QuestionDao questionDao;
 
+    /**
+     * This method is used to validate user by accesstoken
+     * @param authorization
+     * @return UserAuthEntity
+     * @throws AuthorizationFailedException
+     */
     @Transactional(propagation = Propagation.REQUIRED)
-
     public UserAuthEntity authenticate(final String authorization) throws AuthorizationFailedException {
 
         UserAuthEntity userTokenExists = userDao.getUserAuthToken(authorization);
@@ -39,6 +44,12 @@ public class QuestionService {
         }
     }
 
+    /**
+     * This method allows a valid user to edit a question
+     * @param authorization
+     * @return UserAuthEntity
+     * @throws AuthorizationFailedException
+     */
     public UserAuthEntity authenticateEdit(final String authorization) throws AuthorizationFailedException {
 
         UserAuthEntity userTokenExists = userDao.getUserAuthToken(authorization);
@@ -53,6 +64,12 @@ public class QuestionService {
 
     }
 
+    /**
+     * This method allows a valid user to delete a question
+     * @param authorization
+     * @return UserAuthEntity
+     * @throws AuthorizationFailedException
+     */
     public UserAuthEntity authenticateDelete(final String authorization) throws AuthorizationFailedException {
 
         UserAuthEntity userTokenExists = userDao.getUserAuthToken(authorization);
@@ -67,6 +84,11 @@ public class QuestionService {
 
     }
 
+    /**
+     * This method saves the new question
+     * @param questionEntity
+     * @return QuestionEntity
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public QuestionEntity saveUserQuestion(final QuestionEntity questionEntity) {
         questionDao.saveQuestion(questionEntity);
@@ -74,12 +96,24 @@ public class QuestionService {
 
     }
 
+    /**
+     * This method is used to disply all questions
+     * @return list of all questions
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public List<QuestionEntity> getQuestions() {
 
         return questionDao.questionAll();
     }
 
+    /**
+     * This method is used to validate a questionID
+     * @param userAuthEntity
+     * @param questionId
+     * @return QuestionEntity
+     * @throws AuthorizationFailedException
+     * @throws InvalidQuestionException
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public QuestionEntity getQuestionAuthenticate(final UserAuthEntity userAuthEntity, final String questionId) throws AuthorizationFailedException, InvalidQuestionException {
         QuestionEntity questionEntity = questionDao.questionById(questionId);
@@ -91,6 +125,14 @@ public class QuestionService {
         return questionEntity;
     }
 
+    /**
+     * to check if the user is valid to edit a question
+     * @param userAuthEntity
+     * @param questionId
+     * @return QuestionEntity
+     * @throws AuthorizationFailedException
+     * @throws InvalidQuestionException
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public QuestionEntity getQuestionAuthenticateEdit(final UserAuthEntity userAuthEntity, final String questionId) throws AuthorizationFailedException, InvalidQuestionException {
         QuestionEntity questionEntity = questionDao.questionById(questionId);
@@ -103,18 +145,31 @@ public class QuestionService {
     }
 
 
+    /**
+     * This is to update the question
+     * @param questionEntityt
+     */
     @Transactional(propagation=Propagation.REQUIRED)
     public void updateUserQuestion(final QuestionEntity questionEntityt) {
         questionDao.updateQuestion(questionEntityt);
     }
 
+    /**
+     * this is to delete the question
+     * @param questionEntity
+     */
     @Transactional(propagation=Propagation.REQUIRED)
     public void deleteQuestion(final QuestionEntity questionEntity){
         questionDao.deleteQuestion(questionEntity);
     }
 
+    /**
+     * This returns the questions by a valid user
+     * @param userId
+     * @return list of questions
+     * @throws UserNotFoundException
+     */
     @Transactional(propagation=Propagation.REQUIRED)
-
     public List<QuestionEntity> getUserQuestion(final String userId) throws UserNotFoundException {
         UserEntity userEntity= userDao.getUserByUuid(userId);
         if(userEntity==null){

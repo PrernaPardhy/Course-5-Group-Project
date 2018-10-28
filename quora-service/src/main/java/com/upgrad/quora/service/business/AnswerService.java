@@ -28,8 +28,15 @@ public class AnswerService {
     private QuestionDao questionDao;
 
 
-    @Transactional(propagation=Propagation.REQUIRED)
+    //This method is used to validate the questionID
 
+    /**
+     * This is used to validate the questionid
+     * @param questionId
+     * @return QuestionEntity
+     * @throws InvalidQuestionException
+     */
+    @Transactional(propagation=Propagation.REQUIRED)
     public QuestionEntity authenticateQuestion(final String questionId) throws InvalidQuestionException {
         QuestionEntity questionEntity= questionDao.questionById(questionId);
         if(questionEntity==null){
@@ -40,6 +47,14 @@ public class AnswerService {
 
     }
 
+
+
+    /**
+     * //This method is used to validate userID and then check whether user is signed in or not
+     * @param authorization
+     * @return USER Auth Entity
+     * @throws AuthorizationFailedException
+     */
     @Transactional(propagation=Propagation.REQUIRED)
     public UserAuthEntity authenticate(final String authorization) throws AuthorizationFailedException {
         UserAuthEntity userTokenExists = userDao.getUserAuthToken(authorization);
@@ -53,6 +68,14 @@ public class AnswerService {
         }
     }
 
+
+
+    /**
+     * //This method is used to validate userID and then check whether user is signed in or not
+     * @param authorization
+     * @return UserAuthEntity
+     * @throws AuthorizationFailedException
+     */
     @Transactional(propagation=Propagation.REQUIRED)
     public UserAuthEntity authenticateEdit(final String authorization) throws AuthorizationFailedException {
         UserAuthEntity userTokenExists = userDao.getUserAuthToken(authorization);
@@ -66,6 +89,14 @@ public class AnswerService {
         }
     }
 
+
+
+    /**
+     * //This method is used to validate userID and then check whether user is signed in or not
+     * @param authorization
+     * @return UserAuthEntity
+     * @throws AuthorizationFailedException
+     */
     @Transactional(propagation=Propagation.REQUIRED)
     public UserAuthEntity authenticateDelete(final String authorization) throws AuthorizationFailedException {
         UserAuthEntity userTokenExists = userDao.getUserAuthToken(authorization);
@@ -79,12 +110,29 @@ public class AnswerService {
         }
     }
 
+
+
+    /**
+     * //This method allows the signed user to write the answer for the specified question
+     * @param answerEntity
+     * @return Answer Entity
+     */
     @Transactional(propagation=Propagation.REQUIRED)
     public AnswerEntity createAnswer(final AnswerEntity answerEntity){
         answerDao.saveAnswer(answerEntity);
         return  answerEntity;
     }
 
+
+
+    /**
+     * //This method is used to validate the user
+     * @param userAuth
+     * @param answerId
+     * @return AnswerEntity
+     * @throws AnswerNotFoundException
+     * @throws AuthorizationFailedException
+     */
     @Transactional(propagation=Propagation.REQUIRED)
     public AnswerEntity authenticateUser(final UserAuthEntity userAuth, final String answerId) throws AnswerNotFoundException, AuthorizationFailedException {
         AnswerEntity answerEntity= answerDao.getUserById(answerId);
@@ -100,6 +148,15 @@ public class AnswerService {
     }
 
 
+
+    /**
+     * //This method allows valid user to delete the answer
+     * @param userAuth
+     * @param answerId
+     * @return AnswerEntity
+     * @throws AnswerNotFoundException
+     * @throws AuthorizationFailedException
+     */
     @Transactional(propagation=Propagation.REQUIRED)
     public AnswerEntity authenticateUserDelete(final UserAuthEntity userAuth, final String answerId) throws AnswerNotFoundException, AuthorizationFailedException {
         AnswerEntity answerEntity= answerDao.getUserById(answerId);
@@ -114,16 +171,35 @@ public class AnswerService {
 
     }
 
+
+    /**
+     * //This method allows the valid user to edit the answer
+     * @param answerEntity
+     */
     @Transactional(propagation=Propagation.REQUIRED)
     public void editAnswer(final AnswerEntity answerEntity){
         answerDao.updateAnswer(answerEntity);
     }
 
+
+
+    /**
+     * //This method allows a valid user to delete an answer
+     * @param answerEntity
+     */
     @Transactional(propagation=Propagation.REQUIRED)
     public void deleteAnswer(final AnswerEntity answerEntity){
         answerDao.deleteAns(answerEntity);
     }
 
+
+
+    /**
+     * //This method fetches all answer for a specific question
+     * @param questionId
+     * @return list of answers to a particular quesion
+     * @throws InvalidQuestionException
+     */
     @Transactional (propagation = Propagation.REQUIRED)
     public List<AnswerEntity> getAnswers(final String questionId) throws InvalidQuestionException {
         QuestionEntity questionEntity=questionDao.questionById(questionId);

@@ -18,6 +18,12 @@ public class SignupBusinessService {
     private PasswordCryptographyProvider cryptographyProvider;
 
 
+    /**
+     * This checks is the username and email have not been taken already, if not it creates the new user.
+     * @param userEntity
+     * @return UserAuthEntity
+     * @throws SignUpRestrictedException
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public UserEntity signUp(final UserEntity userEntity) throws SignUpRestrictedException {
 

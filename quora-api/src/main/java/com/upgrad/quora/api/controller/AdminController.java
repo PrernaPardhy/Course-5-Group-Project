@@ -19,6 +19,18 @@ public class AdminController {
     @Autowired
     private AdminBusinessService adminBusinessService;
 
+
+
+    /**
+     *  // ENDPOINT - userDelete - "/admin/user/{userId}"
+     *     //
+     *     //This endpoint is used to delete a user from the Quora Application. Only an admin is authorized to access this endpoint.
+     * @param userId
+     * @param authorization
+     * @return ResponseENtity
+     * @throws AuthorizationFailedException
+     * @throws UserNotFoundException
+     */
     @RequestMapping(method=RequestMethod.DELETE, path="/admin/user/{userId}", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<UserDeleteResponse> userDelete(@PathVariable("userId") final String userId,
                                                          @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, UserNotFoundException {

@@ -22,6 +22,15 @@ public class AuthenticationService {
     @Autowired
     private PasswordCryptographyProvider cryptographyProvider;
 
+
+
+    /**
+     * //This method validates user
+     * @param username
+     * @param password
+     * @return UserAuthEntity
+     * @throws AuthenticationFailedException
+     */
     @Transactional(propagation=Propagation.REQUIRED)
     public UserAuthEntity authenticate(final String username, final String password) throws AuthenticationFailedException{
 
@@ -57,6 +66,13 @@ public class AuthenticationService {
 
 
 
+
+    /**
+     * //This method validates user by access token
+     * @param authorization
+     * @return //This method validates user
+     * @throws SignOutRestrictedException
+     */
     @Transactional(propagation=Propagation.REQUIRED)
     public UserAuthEntity getUserByToken(final String authorization) throws SignOutRestrictedException {
 
@@ -71,6 +87,10 @@ public class AuthenticationService {
 
     }
 
+    /**
+     * updates
+     * @param userAuthEntity
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public void authTokenUpdate(final UserAuthEntity userAuthEntity){
         userDao.updateAuthToken(userAuthEntity);

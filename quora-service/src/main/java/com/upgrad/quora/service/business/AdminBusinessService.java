@@ -18,18 +18,22 @@ public class AdminBusinessService {
 
     @Autowired
     private UserBusinessService userBusinessService;
+//This method first checks whether the token entered is correc, if not exception is thrown. If it is correct, it then checks whether the user is admin or not
 
+    /**
+     * This retuen the uuid if the user is valid after deleting that user
+     * @param userUuid
+     * @param authorization
+     * @return UUID Of User
+     * @throws AuthorizationFailedException
+     * @throws UserNotFoundException
+     */
     @Transactional(propagation=Propagation.REQUIRED)
     public String getUserAuth(final String userUuid,final String authorization) throws AuthorizationFailedException, UserNotFoundException {
 
         UserEntity getUserEntity=userBusinessService.getUser(userUuid,authorization);
 
-        //UserAuthEntity userAuthExists= userDao.getUserAuthToken(authorization);
-        //UserEntity getUser= userDao.getUserByUuid(userUuid);
 
-
-        //String role=getUserEntity.getRole();
-        //String role1=role;
 
         if(getUserEntity.getRole().equals("nonadmin")){
             throw new AuthorizationFailedException("ATHR-003","Unauthorized Access, Entered user is not an admin");

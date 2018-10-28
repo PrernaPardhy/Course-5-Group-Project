@@ -17,10 +17,23 @@ public class UserDao {
     @PersistenceContext
     private EntityManager entityManager;
 
+    /**
+     * Save a new user in DB
+     * @param userEntity
+     * @return USerEntity
+     * @throws SignUpRestrictedException
+     */
     public UserEntity createUser(final UserEntity userEntity) throws SignUpRestrictedException {
         entityManager.persist(userEntity);
         return userEntity;
     }
+
+    /**
+     * to check if a username is already not taken
+     * @param userEntity
+     * @return UserEntity
+     * @throws SignUpRestrictedException
+     */
     public UserEntity checkUserName(final UserEntity userEntity) throws SignUpRestrictedException {
         String userName = userEntity.getUsername();
 
@@ -35,6 +48,12 @@ public class UserDao {
         }
     }
 
+    /**
+     * To check if emailid is already not registered
+     * @param userEntity
+     * @return UserEntity
+     * @throws SignUpRestrictedException
+     */
     public UserEntity checkEmail(final UserEntity userEntity) throws SignUpRestrictedException {
 
         String userEmail = userEntity.getEmail();
@@ -50,6 +69,11 @@ public class UserDao {
     }
 
 
+    /**
+     * Fetch by username
+     * @param userName
+     * @return UserEntity
+     */
     public UserEntity getUserByUserName(final String userName) {
         try {
             return entityManager.createNamedQuery("userByName", UserEntity.class).setParameter("username", userName)
@@ -59,6 +83,11 @@ public class UserDao {
         }
     }
 
+    /**
+     * Create Auth Token
+     * @param userAuthEntity
+     * @return UserAuthEntity
+     */
     public UserAuthEntity createAuthToken(UserAuthEntity userAuthEntity) {
 
         entityManager.persist(userAuthEntity);
@@ -66,6 +95,11 @@ public class UserDao {
 
     }
 
+    /**
+     * Validate accestoken
+     * @param accessToken
+     * @return UserAuthEntity
+     */
     public UserAuthEntity getUserAuthToken(final String accessToken) {
 
         UserAuthEntity userAuthEntity;
@@ -81,11 +115,20 @@ public class UserDao {
         }
     }
 
+    /**
+     * Update
+     * @param userAuthEntity
+     */
     public void updateAuthToken(final UserAuthEntity userAuthEntity) {
 
         entityManager.merge(userAuthEntity);
     }
 
+    /**
+     * Get user by uuid
+     * @param userUuid
+     * @return UserEntity
+     */
     public UserEntity getUserByUuid(final String userUuid) {
         try {
             return entityManager.createNamedQuery("userByUuid", UserEntity.class).setParameter("uuid", userUuid)
@@ -95,6 +138,11 @@ public class UserDao {
         }
     }
 
+    /**
+     * Delete user
+     * @param userEntity
+     * @return uuid of deleted user
+     */
     public String deleteUser(UserEntity userEntity) {
         // entityManager.createNamedQuery("deleteUser", UserEntity.class).setParameter("uuid", userEntity.getUuid());
         String userUuid = userEntity.getUuid();

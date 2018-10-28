@@ -25,6 +25,17 @@ public class AnswerController {
     private AnswerService answerService;
 
 
+    /**
+     * /createAnswer - "/question/{questionId}answer/create"
+     * //
+     * //This endpoint is used to create an answer to a particular question. Any user can access this endpoint.
+     * @param answerRequest
+     * @param questionId
+     * @param authorization
+     * @return ResponseEntity
+     * @throws InvalidQuestionException
+     * @throws AuthorizationFailedException
+     */
     @RequestMapping(method = RequestMethod.POST, path = "/question/{questionId}answer/create", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<AnswerResponse> createAnswers(final AnswerRequest answerRequest, @PathVariable("questionId") final String questionId,
                                                         @RequestHeader("authorization") final String authorization) throws InvalidQuestionException, AuthorizationFailedException {
@@ -46,6 +57,19 @@ public class AnswerController {
 
     }
 
+
+
+    /**
+     * //editAnswerContent - "/answer/edit/{answerId}"
+     *     //
+     *     //This endpoint is used to edit an answer. Only the owner of the answer can edit the answer.
+     * @param answerEditRequest
+     * @param answerId
+     * @param authorization
+     * @return ResponseENtity
+     * @throws AuthorizationFailedException
+     * @throws AnswerNotFoundException
+     */
     @RequestMapping(method = RequestMethod.PUT, path = "/answer/edit/{answerId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<AnswerEditResponse> editAnswerContent(final AnswerEditRequest answerEditRequest,
                                                                 @PathVariable("answerId") final String answerId,
@@ -63,6 +87,17 @@ public class AnswerController {
 
     }
 
+
+    /**
+     * //deleteAnswer - "/answer/delete/{answerId}"
+     *     //
+     *     //This endpoint is used to delete an answer. Only the owner of the answer or admin can delete an answer.
+     * @param answerId
+     * @param authorization
+     * @return ResponseENtity
+     * @throws AuthorizationFailedException
+     * @throws AnswerNotFoundException
+     */
     @RequestMapping(method = RequestMethod.DELETE, path = "/answer/delete/{answerId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<QuestionDeleteResponse> deleteAnswer(@PathVariable("answerId") final String answerId,
                                                                @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, AnswerNotFoundException {
@@ -74,6 +109,18 @@ public class AnswerController {
         return new ResponseEntity<QuestionDeleteResponse>(questionDeleteResponse, HttpStatus.OK);
     }
 
+
+
+    /**
+     *  // getAllAnswersToQuestion - "/all/{questionId}"
+     *     //
+     *     //This endpoint is used to get all answers to a particular question. Any user can access this endpoint.
+     * @param questionId
+     * @param authorization
+     * @return ResponseEntity
+     * @throws AuthorizationFailedException
+     * @throws InvalidQuestionException
+     */
     @RequestMapping(method=RequestMethod.GET, path="/all/{questionId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<AnswerDetailsResponse> getAllAnswersToQuestion (@PathVariable("questionId") final String questionId,
                                                                           @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, InvalidQuestionException {

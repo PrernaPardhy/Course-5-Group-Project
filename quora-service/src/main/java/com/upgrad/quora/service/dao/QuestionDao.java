@@ -16,13 +16,17 @@ public class QuestionDao {
     @PersistenceContext
     private EntityManager entityManager;
 
+    /**
+     * This returns a list of questions posted by a user
+     * @param userEntity
+     * @return list of questions
+     */
     public List<QuestionEntity> getUserQuestion(final UserEntity userEntity) {
         try {
 
             return entityManager.createNamedQuery("questionById", QuestionEntity.class).setParameter("userid", userEntity.getId())
                     .getResultList();
-            // String Query=" select distinct q from QuestionEntity q inner join q.user u where u.id="+userEntity.getId();
-            // return entityManager.createQuery(Query).getResultList();
+
 
         } catch (NoResultException nre) {
             return null;
@@ -30,15 +34,21 @@ public class QuestionDao {
     }
 
 
-
-
-
+    /**
+     * This is used to save the question the the DB
+     * @param questionContent
+     * @return Question Entity
+     */
     public QuestionEntity saveQuestion(final QuestionEntity questionContent) {
         entityManager.persist(questionContent);
         return questionContent;
     }
 
 
+    /**
+     * to fetch ist of all questions
+     * @return list of all questions
+     */
     public List<QuestionEntity> questionAll() {
         try {
             return entityManager.createNamedQuery("questionAll", QuestionEntity.class)
@@ -50,8 +60,11 @@ public class QuestionDao {
     }
 
 
-
-
+    /**
+     * To fetch question by its id
+     * @param questionId
+     * @return QuestionEntity
+     */
     public QuestionEntity questionById(final String questionId) {
         try {
             return entityManager.createNamedQuery("questionByUuid", QuestionEntity.class).setParameter("uuid", questionId)
@@ -62,10 +75,18 @@ public class QuestionDao {
     }
 
 
+    /**
+     * Update question in DB
+     * @param questionEntity
+     */
     public void updateQuestion(final QuestionEntity questionEntity) {
         entityManager.merge(questionEntity);
     }
 
+    /**
+     * Delete Question from DB
+     * @param questionEntity
+     */
     public void deleteQuestion(final QuestionEntity questionEntity) {
         entityManager.createQuery("delete from QuestionEntity q where q.uuid =" + "'" + questionEntity.getUuid() + "'").executeUpdate();
 
